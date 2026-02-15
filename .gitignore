@@ -1,0 +1,2 @@
+#Don't load DIR 'node_modules' in github
+/node_modules
