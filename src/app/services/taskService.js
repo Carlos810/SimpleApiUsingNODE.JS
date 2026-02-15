@@ -1,17 +1,33 @@
-const {v4:uuid} =  require('uuid');
-const repository = require('../repositories/taskRepository');
+/**
+ * Servicio de tareas
+ * Usa abstracción de repositorio (repositoryFactory) para cambiar entre LOCAL/AWS
+ */
 
-exports.createTask = (userId,title) =>{
+const {v4:uuid} = require('uuid');
+const repository = require('../repositories/repositoryFactory');
+
+/**
+ * Crear una nueva tarea
+ * @param {string} userId - ID del usuario
+ * @param {string} title - Título de la tarea
+ * @returns {Promise<Object>} Tarea creada
+ */
+exports.createTask = async (userId, title) => {
     const task = {
-        taskId : uuid(),
+        taskId: uuid(),
         userId,
         title,
         status: "PENDING",
         createdAt: new Date().toISOString()
     }
-    return repository.save(task);
+    return await repository.create(task);
 }
 
-exports.getTasks = (userId) => {
-    return repository.findByUser(userId);
+/**
+ * Obtener tareas de un usuario
+ * @param {string} userId - ID del usuario
+ * @returns {Promise<Array>} Lista de tareas
+ */
+exports.getTasks = async (userId) => {
+    return await repository.getByUser(userId);
 }

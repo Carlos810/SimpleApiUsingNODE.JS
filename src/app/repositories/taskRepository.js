@@ -1,9 +1,27 @@
+/**
+ * Repositorio en MEMORIA para desarrollo/pruebas locales
+ * NOTA: Los datos se pierden al reiniciar el servidor
+ * 
+ * Para producción en AWS, usa lamdaRepository.js con DynamoDB
+ */
+
 let tasks = [];
 
-exports.save = (task) =>{
-    return tasks.push(task);
+/**
+ * Guardar tarea
+ * @param {Object} task - Tarea a guardar
+ * @returns {Promise<Object>} Tarea guardada
+ */
+exports.create = async (task) => {
+    tasks.push(task);
+    return task;
 }
 
-exports.findByUser = (userId)=>{
+/**
+ * Obtener tareas por usuario
+ * @param {string} userId - ID del usuario
+ * @returns {Promise<Array>} Lista de tareas del usuario
+ */
+exports.getByUser = async (userId) => {
     return tasks.filter(t => t.userId === userId);
 }
